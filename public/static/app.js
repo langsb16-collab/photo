@@ -3,6 +3,21 @@
 let currentImage = null;
 let currentResults = [];
 
+// 다국어 지원 초기화
+document.addEventListener('DOMContentLoaded', () => {
+    // URL에서 언어 파라미터 확인
+    const urlParams = new URLSearchParams(window.location.search);
+    const urlLang = urlParams.get('lang');
+    
+    if (urlLang) {
+        window.currentLanguage = urlLang;
+        localStorage.setItem('language', urlLang);
+    }
+    
+    // 모든 번역 가능한 요소 업데이트
+    updateTranslations();
+});
+
 // DOM 요소
 const uploadArea = document.getElementById('uploadArea');
 const fileInput = document.getElementById('fileInput');
@@ -547,8 +562,19 @@ function filterResults(filterType) {
     displayResults(sortedResults);
 }
 
+// 번역 업데이트 함수
+function updateTranslations() {
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        if (window.t) {
+            element.textContent = window.t(key);
+        }
+    });
+}
+
 // 전역 함수로 노출
 window.showProductDetail = showProductDetail;
 window.addToWishlist = addToWishlist;
+window.updateTranslations = updateTranslations;
 
 console.log('K-FoodScan initialized! 🚀');

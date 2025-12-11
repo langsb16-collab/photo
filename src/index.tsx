@@ -22,10 +22,10 @@ app.get('/', (c) => {
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
             
             * {
-                font-family: 'Noto Sans KR', sans-serif;
+                font-family: 'Noto Sans KR', 'Noto Sans JP', 'Noto Sans SC', sans-serif;
             }
             
             .gradient-bg {
@@ -129,6 +129,72 @@ app.get('/', (c) => {
                 font-weight: 700;
                 margin: 0 auto 16px;
             }
+            
+            .lang-selector {
+                position: relative;
+            }
+            
+            .lang-btn {
+                padding: 6px 12px;
+                border-radius: 20px;
+                font-size: 13px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                background: rgba(255,255,255,0.2);
+                color: white;
+                border: 2px solid transparent;
+            }
+            
+            .lang-btn:hover {
+                background: rgba(255,255,255,0.3);
+            }
+            
+            .lang-btn.active {
+                background: white;
+                color: #667eea;
+                border-color: white;
+            }
+            
+            .lang-dropdown {
+                display: none;
+                position: absolute;
+                top: 100%;
+                right: 0;
+                margin-top: 8px;
+                background: white;
+                border-radius: 12px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+                padding: 8px;
+                min-width: 160px;
+                z-index: 1000;
+            }
+            
+            .lang-dropdown.show {
+                display: block;
+            }
+            
+            .lang-option {
+                padding: 10px 16px;
+                border-radius: 8px;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                color: #333;
+                font-weight: 500;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            
+            .lang-option:hover {
+                background: #f3f4f6;
+            }
+            
+            .lang-option.active {
+                background: #ede9fe;
+                color: #667eea;
+                font-weight: 600;
+            }
         </style>
     </head>
     <body class="bg-gray-50">
@@ -141,11 +207,43 @@ app.get('/', (c) => {
                         <h1 class="text-white text-2xl font-black">K-FoodScan</h1>
                     </div>
                     <nav class="hidden md:flex items-center space-x-6">
-                        <a href="#features" class="text-white hover:text-gray-200 font-medium">기능</a>
-                        <a href="#how-it-works" class="text-white hover:text-gray-200 font-medium">사용법</a>
-                        <a href="#about" class="text-white hover:text-gray-200 font-medium">소개</a>
+                        <a href="#features" class="text-white hover:text-gray-200 font-medium" data-i18n="nav.features">기능</a>
+                        <a href="#how-it-works" class="text-white hover:text-gray-200 font-medium" data-i18n="nav.howItWorks">사용법</a>
+                        <a href="#about" class="text-white hover:text-gray-200 font-medium" data-i18n="nav.about">소개</a>
+                        
+                        <!-- 언어 선택 -->
+                        <div class="lang-selector">
+                            <button id="langToggle" class="lang-btn flex items-center space-x-2">
+                                <i class="fas fa-globe text-sm"></i>
+                                <span id="currentLang">KO</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="langDropdown" class="lang-dropdown">
+                                <div class="lang-option active" data-lang="ko" onclick="changeLanguage('ko')">
+                                    <span>🇰🇷</span> 한국어
+                                </div>
+                                <div class="lang-option" data-lang="en" onclick="changeLanguage('en')">
+                                    <span>🇺🇸</span> English
+                                </div>
+                                <div class="lang-option" data-lang="zh" onclick="changeLanguage('zh')">
+                                    <span>🇨🇳</span> 中文
+                                </div>
+                                <div class="lang-option" data-lang="ja" onclick="changeLanguage('ja')">
+                                    <span>🇯🇵</span> 日本語
+                                </div>
+                                <div class="lang-option" data-lang="vi" onclick="changeLanguage('vi')">
+                                    <span>🇻🇳</span> Tiếng Việt
+                                </div>
+                                <div class="lang-option" data-lang="mn" onclick="changeLanguage('mn')">
+                                    <span>🇲🇳</span> Монгол
+                                </div>
+                                <div class="lang-option" data-lang="ru" onclick="changeLanguage('ru')">
+                                    <span>🇷🇺</span> Русский
+                                </div>
+                            </div>
+                        </div>
                     </nav>
-                    <button class="md:hidden text-white text-2xl">
+                    <button class="md:hidden text-white text-2xl" id="mobileMenuBtn">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
@@ -168,33 +266,33 @@ app.get('/', (c) => {
                     </div>
                     
                     <h2 class="text-5xl md:text-6xl font-black mb-6 leading-tight">
-                        사진 한 장으로<br/>
-                        <span class="text-yellow-300">전 세계 식품</span>을 손안에
+                        <span data-i18n="hero.title1">사진 한 장으로</span><br/>
+                        <span class="text-yellow-300" data-i18n="hero.title2">전 세계 식품</span><span data-i18n="hero.title2suffix">을 손안에</span>
                     </h2>
                     
                     <p class="text-xl md:text-2xl mb-8 text-gray-100 leading-relaxed">
-                        해외 과자·조미료·가공식품, 이제 찍기만 하세요!<br/>
-                        <span class="font-bold text-yellow-300">AI가 찾아서 · 비교하고 · 소량 구매까지</span> 한 번에 해결합니다
+                        <span data-i18n="hero.subtitle1">해외 과자·조미료·가공식품, 이제 찍기만 하세요!</span><br/>
+                        <span class="font-bold text-yellow-300" data-i18n="hero.subtitle2">AI가 찾아서 · 비교하고 · 소량 구매까지</span><span data-i18n="hero.subtitle2suffix"> 한 번에 해결합니다</span>
                     </p>
                     
                     <div class="flex flex-wrap justify-center gap-4 mb-12">
                         <div class="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full">
                             <i class="fas fa-check-circle mr-2"></i>
-                            <span class="font-bold">1~3개 소량 구매</span>
+                            <span class="font-bold" data-i18n="hero.feature1">1~3개 소량 구매</span>
                         </div>
                         <div class="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full">
                             <i class="fas fa-check-circle mr-2"></i>
-                            <span class="font-bold">전 세계 마켓 비교</span>
+                            <span class="font-bold" data-i18n="hero.feature2">전 세계 마켓 비교</span>
                         </div>
                         <div class="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full">
                             <i class="fas fa-check-circle mr-2"></i>
-                            <span class="font-bold">성분·알레르기 정보</span>
+                            <span class="font-bold" data-i18n="hero.feature3">성분·알레르기 정보</span>
                         </div>
                     </div>
                     
                     <a href="#scanner" class="inline-block bg-white text-purple-600 px-10 py-4 rounded-full text-xl font-bold hover:bg-yellow-300 hover:text-purple-700 transform hover:scale-105 transition-all shadow-2xl pulse-slow">
                         <i class="fas fa-camera mr-2"></i>
-                        지금 바로 촬영하기
+                        <span data-i18n="hero.cta">지금 바로 촬영하기</span>
                     </a>
                 </div>
             </div>
@@ -510,7 +608,99 @@ app.get('/', (c) => {
             </div>
         </footer>
 
+        <script src="/static/i18n.js"></script>
         <script src="/static/app.js"></script>
+        <script>
+            // 언어 선택 UI 초기화
+            window.addEventListener('DOMContentLoaded', () => {
+                // 언어 드롭다운 토글
+                const langToggle = document.getElementById('langToggle');
+                const langDropdown = document.getElementById('langDropdown');
+                const currentLangEl = document.getElementById('currentLang');
+                
+                if (langToggle && langDropdown) {
+                    langToggle.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        langDropdown.classList.toggle('show');
+                    });
+                    
+                    document.addEventListener('click', () => {
+                        langDropdown.classList.remove('show');
+                    });
+                }
+                
+                // 모바일 메뉴 토글
+                const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+                const mobileMenu = document.getElementById('mobileMenu');
+                
+                if (mobileMenuBtn) {
+                    mobileMenuBtn.addEventListener('click', () => {
+                        if (mobileMenu) {
+                            mobileMenu.classList.toggle('hidden');
+                        }
+                    });
+                }
+                
+                // 초기 언어 설정
+                const savedLang = localStorage.getItem('language') || 'ko';
+                if (currentLangEl) {
+                    currentLangEl.textContent = savedLang.toUpperCase();
+                }
+                
+                // 언어 옵션 활성화 상태 업데이트
+                document.querySelectorAll('.lang-option').forEach(option => {
+                    if (option.getAttribute('data-lang') === savedLang) {
+                        option.classList.add('active');
+                    } else {
+                        option.classList.remove('active');
+                    }
+                });
+            });
+            
+            // 언어 변경 함수
+            window.changeLanguage = function(lang) {
+                if (window.t) {
+                    window.currentLanguage = lang;
+                    localStorage.setItem('language', lang);
+                    
+                    // 모든 번역 가능한 요소 업데이트
+                    document.querySelectorAll('[data-i18n]').forEach(element => {
+                        const key = element.getAttribute('data-i18n');
+                        element.textContent = window.t(key);
+                    });
+                    
+                    // HTML lang 속성 업데이트
+                    document.documentElement.lang = lang;
+                    
+                    // 현재 언어 표시 업데이트
+                    const currentLangEl = document.getElementById('currentLang');
+                    if (currentLangEl) {
+                        currentLangEl.textContent = lang.toUpperCase();
+                    }
+                    
+                    // 언어 옵션 활성화 상태 업데이트
+                    document.querySelectorAll('.lang-option').forEach(option => {
+                        if (option.getAttribute('data-lang') === lang) {
+                            option.classList.add('active');
+                        } else {
+                            option.classList.remove('active');
+                        }
+                    });
+                    
+                    // 드롭다운 닫기
+                    const langDropdown = document.getElementById('langDropdown');
+                    if (langDropdown) {
+                        langDropdown.classList.remove('show');
+                    }
+                    
+                    // 모바일 메뉴 닫기
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            };
+        </script>
     </body>
     </html>
   `)
