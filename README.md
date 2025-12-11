@@ -263,9 +263,15 @@
 ## 🌐 배포 정보
 
 - **플랫폼**: Cloudflare Pages
-- **상태**: 🚧 개발 중
+- **상태**: ✅ 실행 중
+- **개발 서버 URL**: https://3000-ix5z76v5srocn2u6w74mt-b9b802c4.sandbox.novita.ai/
 - **Tech Stack**: Hono + TypeScript + TailwindCSS
 - **마지막 업데이트**: 2024-12-11
+
+## 🔗 바로가기
+
+- **웹사이트**: [K-FoodScan 접속하기](https://3000-ix5z76v5srocn2u6w74mt-b9b802c4.sandbox.novita.ai/)
+- **GitHub**: (추후 업데이트)
 
 ## 📝 개발 노트
 
