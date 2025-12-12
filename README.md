@@ -297,6 +297,7 @@
 ## 🔗 바로가기
 
 - **웹사이트**: [K-FoodScan 접속하기](https://3000-ix5z76v5srocn2u6w74mt-b9b802c4.sandbox.novita.ai/)
+- **GitHub**: [소스코드 보기](https://github.com/langsb16-collab/photo)
 - **언어별 접속**:
   - 🇰🇷 한국어: [KO](https://3000-ix5z76v5srocn2u6w74mt-b9b802c4.sandbox.novita.ai/)
   - 🇺🇸 English: [EN](https://3000-ix5z76v5srocn2u6w74mt-b9b802c4.sandbox.novita.ai/)
@@ -305,7 +306,6 @@
   - 🇻🇳 Tiếng Việt: [VI](https://3000-ix5z76v5srocn2u6w74mt-b9b802c4.sandbox.novita.ai/)
   - 🇲🇳 Монгол: [MN](https://3000-ix5z76v5srocn2u6w74mt-b9b802c4.sandbox.novita.ai/)
   - 🇷🇺 Русский: [RU](https://3000-ix5z76v5srocn2u6w74mt-b9b802c4.sandbox.novita.ai/)
-- **GitHub**: (추후 업데이트)
 
 ## 📝 개발 노트
 
