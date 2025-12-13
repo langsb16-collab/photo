@@ -3,19 +3,55 @@
 let currentImage = null;
 let currentResults = [];
 
-// 다국어 지원 초기화
-document.addEventListener('DOMContentLoaded', () => {
-    // URL에서 언어 파라미터 확인
-    const urlParams = new URLSearchParams(window.location.search);
-    const urlLang = urlParams.get('lang');
-    
-    if (urlLang) {
-        window.currentLanguage = urlLang;
-        localStorage.setItem('language', urlLang);
+// 번역 업데이트 함수
+function updateTranslations() {
+    if (typeof window.t !== 'function') {
+        console.warn('Translation function not loaded yet');
+        return;
     }
     
     // 모든 번역 가능한 요소 업데이트
-    updateTranslations();
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+        const key = element.getAttribute('data-i18n');
+        const translated = window.t(key);
+        if (translated && translated !== key) {
+            element.textContent = translated;
+        }
+    });
+    
+    // HTML lang 속성 업데이트
+    if (window.currentLanguage) {
+        document.documentElement.lang = window.currentLanguage;
+    }
+}
+
+// 다국어 지원 초기화
+document.addEventListener('DOMContentLoaded', () => {
+    // i18n.js가 로드될 때까지 대기
+    const checkI18nLoaded = setInterval(() => {
+        if (typeof window.t === 'function') {
+            clearInterval(checkI18nLoaded);
+            
+            // URL에서 언어 파라미터 확인
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlLang = urlParams.get('lang');
+            
+            if (urlLang && window.changeLanguage) {
+                window.changeLanguage(urlLang);
+            } else {
+                // 저장된 언어 또는 기본 언어로 초기화
+                const savedLang = localStorage.getItem('language') || 'ko';
+                if (window.changeLanguage) {
+                    window.changeLanguage(savedLang);
+                } else {
+                    updateTranslations();
+                }
+            }
+        }
+    }, 50);
+    
+    // 10초 후에도 로드 안되면 타임아웃
+    setTimeout(() => clearInterval(checkI18nLoaded), 10000);
 });
 
 // DOM 요소

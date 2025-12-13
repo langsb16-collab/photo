@@ -657,65 +657,23 @@ app.get('/', (c) => {
                     });
                 }
                 
-                // 초기 언어 설정
-                const savedLang = localStorage.getItem('language') || 'ko';
-                if (currentLangEl) {
-                    currentLangEl.textContent = savedLang.toUpperCase();
-                }
-                
-                // 언어 옵션 활성화 상태 업데이트
-                document.querySelectorAll('.lang-option').forEach(option => {
-                    if (option.getAttribute('data-lang') === savedLang) {
-                        option.classList.add('active');
-                    } else {
-                        option.classList.remove('active');
-                    }
-                });
-            });
-            
-            // 언어 변경 함수
-            window.changeLanguage = function(lang) {
-                if (window.t) {
-                    window.currentLanguage = lang;
-                    localStorage.setItem('language', lang);
-                    
-                    // 모든 번역 가능한 요소 업데이트
-                    document.querySelectorAll('[data-i18n]').forEach(element => {
-                        const key = element.getAttribute('data-i18n');
-                        element.textContent = window.t(key);
-                    });
-                    
-                    // HTML lang 속성 업데이트
-                    document.documentElement.lang = lang;
-                    
-                    // 현재 언어 표시 업데이트
-                    const currentLangEl = document.getElementById('currentLang');
+                // 초기 언어 설정 및 UI 업데이트
+                setTimeout(() => {
+                    const savedLang = window.currentLanguage || localStorage.getItem('language') || 'ko';
                     if (currentLangEl) {
-                        currentLangEl.textContent = lang.toUpperCase();
+                        currentLangEl.textContent = savedLang.toUpperCase();
                     }
                     
                     // 언어 옵션 활성화 상태 업데이트
                     document.querySelectorAll('.lang-option').forEach(option => {
-                        if (option.getAttribute('data-lang') === lang) {
+                        if (option.getAttribute('data-lang') === savedLang) {
                             option.classList.add('active');
                         } else {
                             option.classList.remove('active');
                         }
                     });
-                    
-                    // 드롭다운 닫기
-                    const langDropdown = document.getElementById('langDropdown');
-                    if (langDropdown) {
-                        langDropdown.classList.remove('show');
-                    }
-                    
-                    // 모바일 메뉴 닫기
-                    const mobileMenu = document.getElementById('mobileMenu');
-                    if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                        mobileMenu.classList.add('hidden');
-                    }
-                }
-            };
+                }, 100);
+            });
         </script>
     </body>
     </html>

@@ -829,16 +829,35 @@ function t(key) {
 // 언어 변경 함수
 function changeLanguage(lang) {
   currentLanguage = lang;
+  window.currentLanguage = lang;
   localStorage.setItem('language', lang);
   
   // 모든 번역 가능한 요소 업데이트
   document.querySelectorAll('[data-i18n]').forEach(element => {
     const key = element.getAttribute('data-i18n');
-    element.textContent = t(key);
+    const translated = t(key);
+    if (translated && translated !== key) {
+      element.textContent = translated;
+    }
   });
   
   // HTML lang 속성 업데이트
   document.documentElement.lang = lang;
+  
+  // 현재 언어 표시 업데이트
+  const currentLangEl = document.getElementById('currentLang');
+  if (currentLangEl) {
+    currentLangEl.textContent = lang.toUpperCase();
+  }
+  
+  // 언어 옵션 활성화 상태 업데이트
+  document.querySelectorAll('.lang-option').forEach(option => {
+    if (option.getAttribute('data-lang') === lang) {
+      option.classList.add('active');
+    } else {
+      option.classList.remove('active');
+    }
+  });
   
   // 언어 선택 버튼 활성화 상태 업데이트
   document.querySelectorAll('.lang-btn').forEach(btn => {
@@ -848,6 +867,18 @@ function changeLanguage(lang) {
       btn.classList.remove('active');
     }
   });
+  
+  // 드롭다운 닫기
+  const langDropdown = document.getElementById('langDropdown');
+  if (langDropdown) {
+    langDropdown.classList.remove('show');
+  }
+  
+  // 모바일 메뉴 닫기
+  const mobileMenu = document.getElementById('mobileMenu');
+  if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+    mobileMenu.classList.add('hidden');
+  }
 }
 
 // 전역으로 노출
