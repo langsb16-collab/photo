@@ -133,17 +133,19 @@ app.get('/', (c) => {
             
             /* 언어 버튼 - 눈에 띄는 밝은 색상 (모바일 초소형) */
             .lang-btn {
-                padding: 6px 10px;
-                border-radius: 20px;
-                font-size: 11px;
-                font-weight: 800;
+                padding: 8px 12px;
+                border-radius: 25px;
+                font-size: 12px;
+                font-weight: 900;
                 cursor: pointer;
                 transition: all 0.3s ease;
                 background: linear-gradient(135deg, #10b981, #059669);
                 color: white;
-                border: 2px solid white;
-                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.6);
+                border: 3px solid white;
+                box-shadow: 0 6px 16px rgba(16, 185, 129, 0.8);
                 animation: pulse-lang 2s ease-in-out infinite;
+                position: relative;
+                z-index: 100;
             }
             
             @keyframes pulse-lang {
@@ -166,9 +168,10 @@ app.get('/', (c) => {
             /* 모바일 초소형 최적화 */
             @media (max-width: 768px) {
                 .lang-btn {
-                    padding: 5px 8px;
-                    font-size: 10px;
-                    font-weight: 800;
+                    padding: 8px 12px;
+                    font-size: 13px;
+                    font-weight: 900;
+                    border: 3px solid white;
                 }
             }
             
@@ -232,11 +235,11 @@ app.get('/', (c) => {
                         </nav>
                         
                         <!-- 언어 선택 버튼 (모바일/데스크톱 공통) -->
-                        <div class="lang-selector">
-                            <button id="langToggle" class="lang-btn flex items-center space-x-1">
-                                <i class="fas fa-globe text-[10px]"></i>
-                                <span id="currentLang" class="text-[10px] font-black">KO</span>
-                                <i class="fas fa-chevron-down text-[8px]"></i>
+                        <div class="lang-selector relative z-50">
+                            <button id="langToggle" class="lang-btn flex items-center space-x-1.5">
+                                <i class="fas fa-globe text-sm"></i>
+                                <span id="currentLang" class="font-black">KO</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
                             </button>
                             <div id="langDropdown" class="lang-dropdown">
                                 <div class="lang-option active" data-lang="ko" onclick="changeLanguage('ko')">

@@ -25,8 +25,84 @@ function updateTranslations() {
     }
 }
 
-// 다국어 지원 초기화
+// DOM 요소 (전역 변수로 선언만)
+let uploadArea, fileInput, imagePreview, previewImage, removeImageBtn, analyzeBtn;
+let loadingState, resultsSection, resultsGrid, resultCount;
+let productModal, modalTitle, modalContent, closeModalBtn;
+
+// 다국어 지원 및 DOM 초기화
 document.addEventListener('DOMContentLoaded', () => {
+    // DOM 요소 초기화
+    uploadArea = document.getElementById('uploadArea');
+    fileInput = document.getElementById('fileInput');
+    imagePreview = document.getElementById('imagePreview');
+    previewImage = document.getElementById('previewImage');
+    removeImageBtn = document.getElementById('removeImage');
+    analyzeBtn = document.getElementById('analyzeBtn');
+    loadingState = document.getElementById('loadingState');
+    resultsSection = document.getElementById('results');
+    resultsGrid = document.getElementById('resultsGrid');
+    resultCount = document.getElementById('resultCount');
+    productModal = document.getElementById('productModal');
+    modalTitle = document.getElementById('modalTitle');
+    modalContent = document.getElementById('modalContent');
+    closeModalBtn = document.getElementById('closeModal');
+    
+    console.log('DOM elements initialized:', {
+        uploadArea: !!uploadArea,
+        fileInput: !!fileInput,
+        analyzeBtn: !!analyzeBtn
+    });
+    
+    // 이벤트 리스너 등록
+    if (uploadArea && fileInput) {
+        // 파일 업로드 영역 클릭
+        uploadArea.addEventListener('click', () => {
+            console.log('Upload area clicked');
+            fileInput.click();
+        });
+        
+        // 드래그 앤 드롭
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('border-purple-500', 'bg-purple-50');
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('border-purple-500', 'bg-purple-50');
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('border-purple-500', 'bg-purple-50');
+            
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFileSelect(files[0]);
+            }
+        });
+        
+        // 파일 선택
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            console.log('File selected:', file?.name);
+            if (file) {
+                handleFileSelect(file);
+            }
+        });
+    }
+    
+    // 스무스 스크롤
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+    
     // i18n.js가 로드될 때까지 대기
     const checkI18nLoaded = setInterval(() => {
         if (typeof window.t === 'function') {
@@ -52,66 +128,6 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 10초 후에도 로드 안되면 타임아웃
     setTimeout(() => clearInterval(checkI18nLoaded), 10000);
-});
-
-// DOM 요소
-const uploadArea = document.getElementById('uploadArea');
-const fileInput = document.getElementById('fileInput');
-const imagePreview = document.getElementById('imagePreview');
-const previewImage = document.getElementById('previewImage');
-const removeImageBtn = document.getElementById('removeImage');
-const analyzeBtn = document.getElementById('analyzeBtn');
-const loadingState = document.getElementById('loadingState');
-const resultsSection = document.getElementById('results');
-const resultsGrid = document.getElementById('resultsGrid');
-const resultCount = document.getElementById('resultCount');
-const productModal = document.getElementById('productModal');
-const modalTitle = document.getElementById('modalTitle');
-const modalContent = document.getElementById('modalContent');
-const closeModalBtn = document.getElementById('closeModal');
-
-// 스무스 스크롤
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    });
-});
-
-// 파일 업로드 영역 클릭
-uploadArea.addEventListener('click', () => {
-    fileInput.click();
-});
-
-// 드래그 앤 드롭
-uploadArea.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    uploadArea.classList.add('border-purple-500', 'bg-purple-50');
-});
-
-uploadArea.addEventListener('dragleave', () => {
-    uploadArea.classList.remove('border-purple-500', 'bg-purple-50');
-});
-
-uploadArea.addEventListener('drop', (e) => {
-    e.preventDefault();
-    uploadArea.classList.remove('border-purple-500', 'bg-purple-50');
-    
-    const files = e.dataTransfer.files;
-    if (files.length > 0) {
-        handleFileSelect(files[0]);
-    }
-});
-
-// 파일 선택
-fileInput.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        handleFileSelect(file);
-    }
 });
 
 // 파일 처리
