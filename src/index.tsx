@@ -222,17 +222,21 @@ app.get('/', (c) => {
                         <i class="fas fa-camera-retro text-white text-sm md:text-xl"></i>
                         <h1 class="text-white text-xs md:text-base font-black whitespace-nowrap">K-FoodScan</h1>
                     </div>
-                    <nav class="hidden md:flex items-center space-x-2">
-                        <a href="#features" class="text-white hover:text-gray-200 font-medium text-xs" data-i18n="nav.features">기능</a>
-                        <a href="#how-it-works" class="text-white hover:text-gray-200 font-medium text-xs" data-i18n="nav.howItWorks">사용법</a>
-                        <a href="#about" class="text-white hover:text-gray-200 font-medium text-xs" data-i18n="nav.about">소개</a>
+                    
+                    <div class="flex items-center space-x-2">
+                        <!-- 데스크톱 네비게이션 -->
+                        <nav class="hidden md:flex items-center space-x-2">
+                            <a href="#features" class="text-white hover:text-gray-200 font-medium text-xs" data-i18n="nav.features">기능</a>
+                            <a href="#how-it-works" class="text-white hover:text-gray-200 font-medium text-xs" data-i18n="nav.howItWorks">사용법</a>
+                            <a href="#about" class="text-white hover:text-gray-200 font-medium text-xs" data-i18n="nav.about">소개</a>
+                        </nav>
                         
-                        <!-- 언어 선택 -->
+                        <!-- 언어 선택 버튼 (모바일/데스크톱 공통) -->
                         <div class="lang-selector">
-                            <button id="langToggle" class="lang-btn flex items-center space-x-2">
-                                <i class="fas fa-globe text-sm"></i>
-                                <span id="currentLang">KO</span>
-                                <i class="fas fa-chevron-down text-xs"></i>
+                            <button id="langToggle" class="lang-btn flex items-center space-x-1">
+                                <i class="fas fa-globe text-[10px]"></i>
+                                <span id="currentLang" class="text-[10px] font-black">KO</span>
+                                <i class="fas fa-chevron-down text-[8px]"></i>
                             </button>
                             <div id="langDropdown" class="lang-dropdown">
                                 <div class="lang-option active" data-lang="ko" onclick="changeLanguage('ko')">
@@ -258,11 +262,12 @@ app.get('/', (c) => {
                                 </div>
                             </div>
                         </div>
-                    </nav>
-                    <!-- 모바일 메뉴 버튼 -->
-                    <button class="md:hidden text-white text-base" id="mobileMenuBtn">
-                        <i class="fas fa-bars"></i>
-                    </button>
+                        
+                        <!-- 모바일 메뉴 버튼 -->
+                        <button class="md:hidden text-white text-base" id="mobileMenuBtn">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             
@@ -270,37 +275,9 @@ app.get('/', (c) => {
             <div id="mobileMenu" class="hidden md:hidden bg-purple-700 border-t border-purple-600">
                 <div class="container mx-auto px-3 py-3">
                     <div class="flex flex-col space-y-3">
-                        <a href="#features" class="text-white hover:text-yellow-300 font-medium text-sm" data-i18n="nav.features">기능</a>
-                        <a href="#how-it-works" class="text-white hover:text-yellow-300 font-medium text-sm" data-i18n="nav.howItWorks">사용법</a>
-                        <a href="#about" class="text-white hover:text-yellow-300 font-medium text-sm" data-i18n="nav.about">소개</a>
-                        
-                        <!-- 모바일 언어 선택 -->
-                        <div class="border-t border-purple-600 pt-3">
-                            <p class="text-white text-xs font-bold mb-2">언어 / Language</p>
-                            <div class="grid grid-cols-2 gap-2">
-                                <button onclick="changeLanguage('ko')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
-                                    🇰🇷 한국어
-                                </button>
-                                <button onclick="changeLanguage('en')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
-                                    🇺🇸 English
-                                </button>
-                                <button onclick="changeLanguage('zh')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
-                                    🇨🇳 中文
-                                </button>
-                                <button onclick="changeLanguage('ja')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
-                                    🇯🇵 日本語
-                                </button>
-                                <button onclick="changeLanguage('vi')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
-                                    🇻🇳 Tiếng Việt
-                                </button>
-                                <button onclick="changeLanguage('mn')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
-                                    🇲🇳 Монгол
-                                </button>
-                                <button onclick="changeLanguage('ru')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left" style="grid-column: span 2;">
-                                    🇷🇺 Русский
-                                </button>
-                            </div>
-                        </div>
+                        <a href="#features" class="text-white hover:text-yellow-300 font-medium text-sm mobile-menu-link" data-i18n="nav.features">기능</a>
+                        <a href="#how-it-works" class="text-white hover:text-yellow-300 font-medium text-sm mobile-menu-link" data-i18n="nav.howItWorks">사용법</a>
+                        <a href="#about" class="text-white hover:text-yellow-300 font-medium text-sm mobile-menu-link" data-i18n="nav.about">소개</a>
                     </div>
                 </div>
             </div>
@@ -689,10 +666,25 @@ app.get('/', (c) => {
                 const mobileMenuBtn = document.getElementById('mobileMenuBtn');
                 const mobileMenu = document.getElementById('mobileMenu');
                 
-                if (mobileMenuBtn) {
-                    mobileMenuBtn.addEventListener('click', () => {
-                        if (mobileMenu) {
-                            mobileMenu.classList.toggle('hidden');
+                if (mobileMenuBtn && mobileMenu) {
+                    // 햄버거 버튼 클릭
+                    mobileMenuBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        mobileMenu.classList.toggle('hidden');
+                        console.log('Mobile menu toggled:', !mobileMenu.classList.contains('hidden'));
+                    });
+                    
+                    // 메뉴 링크 클릭 시 메뉴 닫기
+                    document.querySelectorAll('.mobile-menu-link').forEach(link => {
+                        link.addEventListener('click', () => {
+                            mobileMenu.classList.add('hidden');
+                        });
+                    });
+                    
+                    // 메뉴 외부 클릭 시 닫기
+                    document.addEventListener('click', (e) => {
+                        if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                            mobileMenu.classList.add('hidden');
                         }
                     });
                 }
