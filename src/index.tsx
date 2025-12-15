@@ -131,43 +131,43 @@ app.get('/', (c) => {
                 position: relative;
             }
             
-            /* 언어 버튼 - 더 눈에 띄게 (모바일 최적화) */
+            /* 언어 버튼 - 눈에 띄는 밝은 색상 (모바일 초소형) */
             .lang-btn {
-                padding: 10px 18px;
-                border-radius: 30px;
-                font-size: 16px;
+                padding: 6px 10px;
+                border-radius: 20px;
+                font-size: 11px;
                 font-weight: 800;
                 cursor: pointer;
                 transition: all 0.3s ease;
-                background: linear-gradient(135deg, #fbbf24, #f59e0b);
+                background: linear-gradient(135deg, #10b981, #059669);
                 color: white;
-                border: 3px solid white;
-                box-shadow: 0 6px 16px rgba(251, 191, 36, 0.5);
+                border: 2px solid white;
+                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.6);
                 animation: pulse-lang 2s ease-in-out infinite;
             }
             
             @keyframes pulse-lang {
-                0%, 100% { box-shadow: 0 6px 16px rgba(251, 191, 36, 0.5); }
-                50% { box-shadow: 0 8px 24px rgba(251, 191, 36, 0.8); }
+                0%, 100% { box-shadow: 0 4px 12px rgba(16, 185, 129, 0.6); }
+                50% { box-shadow: 0 6px 18px rgba(16, 185, 129, 0.9); }
             }
             
             .lang-btn:hover {
-                background: linear-gradient(135deg, #f59e0b, #d97706);
+                background: linear-gradient(135deg, #059669, #047857);
                 transform: scale(1.08);
-                box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+                box-shadow: 0 6px 16px rgba(16, 185, 129, 0.8);
             }
             
             .lang-btn.active {
                 background: white;
-                color: #667eea;
-                border-color: #fbbf24;
+                color: #10b981;
+                border-color: #10b981;
             }
             
-            /* 모바일 최적화 - 모든 요소 축소 및 간격 최적화 */
+            /* 모바일 초소형 최적화 */
             @media (max-width: 768px) {
                 .lang-btn {
-                    padding: 10px 16px;
-                    font-size: 15px;
+                    padding: 5px 8px;
+                    font-size: 10px;
                     font-weight: 800;
                 }
             }
@@ -214,18 +214,18 @@ app.get('/', (c) => {
         </style>
     </head>
     <body class="bg-gray-50">
-        <!-- 헤더 - 50% 축소 및 모바일 최적화 -->
+        <!-- 헤더 - 모바일 초소형 최적화 -->
         <header class="gradient-bg shadow-lg sticky top-0 z-50">
-            <div class="container mx-auto px-3 py-2">
+            <div class="container mx-auto px-2 py-1.5">
                 <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-2">
-                        <i class="fas fa-camera-retro text-white text-xl md:text-2xl"></i>
-                        <h1 class="text-white text-base md:text-xl font-black">K-FoodScan</h1>
+                    <div class="flex items-center space-x-1.5">
+                        <i class="fas fa-camera-retro text-white text-sm md:text-xl"></i>
+                        <h1 class="text-white text-xs md:text-base font-black whitespace-nowrap">K-FoodScan</h1>
                     </div>
-                    <nav class="hidden md:flex items-center space-x-3">
-                        <a href="#features" class="text-white hover:text-gray-200 font-medium text-sm" data-i18n="nav.features">기능</a>
-                        <a href="#how-it-works" class="text-white hover:text-gray-200 font-medium text-sm" data-i18n="nav.howItWorks">사용법</a>
-                        <a href="#about" class="text-white hover:text-gray-200 font-medium text-sm" data-i18n="nav.about">소개</a>
+                    <nav class="hidden md:flex items-center space-x-2">
+                        <a href="#features" class="text-white hover:text-gray-200 font-medium text-xs" data-i18n="nav.features">기능</a>
+                        <a href="#how-it-works" class="text-white hover:text-gray-200 font-medium text-xs" data-i18n="nav.howItWorks">사용법</a>
+                        <a href="#about" class="text-white hover:text-gray-200 font-medium text-xs" data-i18n="nav.about">소개</a>
                         
                         <!-- 언어 선택 -->
                         <div class="lang-selector">
@@ -259,73 +259,113 @@ app.get('/', (c) => {
                             </div>
                         </div>
                     </nav>
-                    <button class="md:hidden text-white text-xl" id="mobileMenuBtn">
+                    <!-- 모바일 메뉴 버튼 -->
+                    <button class="md:hidden text-white text-base" id="mobileMenuBtn">
                         <i class="fas fa-bars"></i>
                     </button>
                 </div>
             </div>
+            
+            <!-- 모바일 메뉴 드롭다운 -->
+            <div id="mobileMenu" class="hidden md:hidden bg-purple-700 border-t border-purple-600">
+                <div class="container mx-auto px-3 py-3">
+                    <div class="flex flex-col space-y-3">
+                        <a href="#features" class="text-white hover:text-yellow-300 font-medium text-sm" data-i18n="nav.features">기능</a>
+                        <a href="#how-it-works" class="text-white hover:text-yellow-300 font-medium text-sm" data-i18n="nav.howItWorks">사용법</a>
+                        <a href="#about" class="text-white hover:text-yellow-300 font-medium text-sm" data-i18n="nav.about">소개</a>
+                        
+                        <!-- 모바일 언어 선택 -->
+                        <div class="border-t border-purple-600 pt-3">
+                            <p class="text-white text-xs font-bold mb-2">언어 / Language</p>
+                            <div class="grid grid-cols-2 gap-2">
+                                <button onclick="changeLanguage('ko')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
+                                    🇰🇷 한국어
+                                </button>
+                                <button onclick="changeLanguage('en')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
+                                    🇺🇸 English
+                                </button>
+                                <button onclick="changeLanguage('zh')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
+                                    🇨🇳 中文
+                                </button>
+                                <button onclick="changeLanguage('ja')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
+                                    🇯🇵 日本語
+                                </button>
+                                <button onclick="changeLanguage('vi')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
+                                    🇻🇳 Tiếng Việt
+                                </button>
+                                <button onclick="changeLanguage('mn')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left">
+                                    🇲🇳 Монгол
+                                </button>
+                                <button onclick="changeLanguage('ru')" class="text-white hover:bg-purple-600 px-3 py-2 rounded text-xs text-left" style="grid-column: span 2;">
+                                    🇷🇺 Русский
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </header>
 
-        <!-- Hero Section - 모바일 최적화 및 빈 공간 축소 -->
-        <section class="hero-gradient text-white py-8 md:py-16 relative overflow-hidden">
+        <!-- Hero Section - 모바일 초소형 및 빈 공간 최소화 -->
+        <section class="hero-gradient text-white py-4 md:py-12 relative overflow-hidden">
             <div class="absolute inset-0 opacity-10">
                 <div class="absolute top-10 left-10 w-64 h-64 bg-white rounded-full blur-3xl"></div>
                 <div class="absolute bottom-10 right-10 w-96 h-96 bg-white rounded-full blur-3xl"></div>
             </div>
             
-            <div class="container mx-auto px-3 md:px-4 relative z-10">
+            <div class="container mx-auto px-2 md:px-4 relative z-10">
                 <div class="text-center max-w-4xl mx-auto">
-                    <div class="mb-4 md:mb-6">
+                    <div class="mb-2 md:mb-4">
                         <div class="inline-block animate-bounce">
-                            <i class="fas fa-magic text-4xl md:text-6xl mb-2"></i>
+                            <i class="fas fa-magic text-2xl md:text-5xl mb-1"></i>
                         </div>
                     </div>
                     
-                    <h2 class="text-2xl md:text-4xl lg:text-5xl font-black mb-3 md:mb-5 leading-tight">
-                        <span data-i18n="hero.title1">사진 한 장으로</span><br/>
-                        <span class="text-yellow-300" data-i18n="hero.title2">전 세계 식품</span><span data-i18n="hero.title2suffix">을 손안에</span>
+                    <h2 class="text-base md:text-3xl lg:text-4xl font-black mb-2 md:mb-4 leading-tight">
+                        <span data-i18n="hero.title1" class="whitespace-nowrap">사진 한 장으로</span>
+                        <span class="text-yellow-300 whitespace-nowrap" data-i18n="hero.title2">전 세계 식품</span><span data-i18n="hero.title2suffix" class="whitespace-nowrap">을 손안에</span>
                     </h2>
                     
-                    <p class="text-sm md:text-lg lg:text-xl mb-4 md:mb-6 text-gray-100 leading-relaxed">
-                        <span data-i18n="hero.subtitle1">해외 과자·조미료·가공식품, 이제 찍기만 하세요!</span><br/>
+                    <p class="text-xs md:text-base lg:text-lg mb-3 md:mb-5 text-gray-100 leading-tight">
+                        <span data-i18n="hero.subtitle1" class="block mb-0.5">해외 과자·조미료·가공식품, 이제 찍기만 하세요!</span>
                         <span class="font-bold text-yellow-300" data-i18n="hero.subtitle2">AI가 찾아서 · 비교하고 · 소량 구매까지</span><span data-i18n="hero.subtitle2suffix"> 한 번에 해결합니다</span>
                     </p>
                     
-                    <div class="flex flex-wrap justify-center gap-2 md:gap-3 mb-6 md:mb-8">
-                        <div class="bg-white/20 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm">
-                            <i class="fas fa-check-circle mr-1"></i>
+                    <div class="flex flex-wrap justify-center gap-1.5 md:gap-2 mb-4 md:mb-6">
+                        <div class="bg-white/20 backdrop-blur-sm px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs whitespace-nowrap">
+                            <i class="fas fa-check-circle mr-0.5"></i>
                             <span class="font-bold" data-i18n="hero.feature1">1~3개 소량 구매</span>
                         </div>
-                        <div class="bg-white/20 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm">
-                            <i class="fas fa-check-circle mr-1"></i>
+                        <div class="bg-white/20 backdrop-blur-sm px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs whitespace-nowrap">
+                            <i class="fas fa-check-circle mr-0.5"></i>
                             <span class="font-bold" data-i18n="hero.feature2">전 세계 마켓 비교</span>
                         </div>
-                        <div class="bg-white/20 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-full text-xs md:text-sm">
-                            <i class="fas fa-check-circle mr-1"></i>
+                        <div class="bg-white/20 backdrop-blur-sm px-2 py-1 md:px-3 md:py-1.5 rounded-full text-[10px] md:text-xs whitespace-nowrap">
+                            <i class="fas fa-check-circle mr-0.5"></i>
                             <span class="font-bold" data-i18n="hero.feature3">성분·알레르기 정보</span>
                         </div>
                     </div>
                     
-                    <a href="#scanner" class="inline-block bg-white text-purple-600 px-6 py-2.5 md:px-8 md:py-3.5 rounded-full text-base md:text-lg font-bold hover:bg-yellow-300 hover:text-purple-700 transform hover:scale-105 transition-all shadow-2xl pulse-slow">
-                        <i class="fas fa-camera mr-1.5"></i>
+                    <a href="#scanner" class="inline-block bg-white text-purple-600 px-4 py-2 md:px-6 md:py-3 rounded-full text-xs md:text-base font-bold hover:bg-yellow-300 hover:text-purple-700 transform hover:scale-105 transition-all shadow-2xl pulse-slow">
+                        <i class="fas fa-camera mr-1"></i>
                         <span data-i18n="hero.cta">지금 바로 촬영하기</span>
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- Scanner Section - 모바일 최적화 -->
-        <section id="scanner" class="py-6 md:py-12 bg-white">
-            <div class="container mx-auto px-3 md:px-4">
+        <!-- Scanner Section - 모바일 초소형 -->
+        <section id="scanner" class="py-3 md:py-8 bg-white">
+            <div class="container mx-auto px-2 md:px-4">
                 <div class="max-w-4xl mx-auto">
-                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl shadow-2xl p-4 md:p-8">
-                        <div class="text-center mb-4 md:mb-6">
-                            <h3 class="text-xl md:text-2xl font-black text-gray-800 mb-2">
-                                <i class="fas fa-camera text-purple-600 mr-1.5"></i>
-                                식품 패키지 스캔
+                    <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl shadow-2xl p-3 md:p-6">
+                        <div class="text-center mb-3 md:mb-4">
+                            <h3 class="text-sm md:text-xl font-black text-gray-800 mb-1">
+                                <i class="fas fa-camera text-purple-600 mr-1"></i>
+                                <span data-i18n="scanner.title">식품 패키지 스캔</span>
                             </h3>
-                            <p class="text-gray-600 text-sm md:text-base">
-                                사진을 업로드하거나 직접 촬영하세요
+                            <p class="text-gray-600 text-xs md:text-sm">
+                                <span data-i18n="scanner.subtitle">사진을 업로드하거나 직접 촬영하세요</span>
                             </p>
                         </div>
 
